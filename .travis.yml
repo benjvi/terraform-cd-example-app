@@ -1,0 +1,37 @@
+sudo: required
+
+language: haskell
+
+services:
+ - docker
+
+cache:
+  directories:
+    - "$HOME/google-cloud-sdk/"
+    - "/opt/terraform"
+
+install: true
+
+script:
+# should be on master only
+# - gcloud version || true
+# - if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then rm -rf $HOME/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
+# Add gcloud to $PATH
+# - source /home/travis/google-cloud-sdk/path.bash.inc
+# - gcloud version
+# login to gcloud 
+ - openssl aes-256-cbc -K $encrypted_f4a062b8c43d_key -iv $encrypted_f4a062b8c43d_iv -in API\ Project-20f67b6e6d86.json.enc -out $HOME/API\ Project-20f67b6e6d86.json -d
+ - gcloud auth activate-service-account --key-file $HOME/API\ Project-20f67b6e6d86.json
+# install terraform
+ - if [ ! -d "$HOME/terraform" ]; then rm -rf $HOME/terraform; mkdir $HOME/terraform; curl -fSL "https://releases.hashicorp.com/terraform/0.11.5/terraform_0.11.5_linux_amd64.zip" -o terraform.zip; sudo unzip terraform.zip -d $HOME/terraform; rm -f terraform.zip; fi
+ - sudo ln -s $HOME/terraform/terraform /usr/bin/terraform 
+# - docker build -t benjvi/terraform-cd-example-app:${TRAVIS_BUILD_NUMBER} .
+
+deploy:
+  - provider: script
+    skip_cleanup: true
+    script: "./release+deploy.sh"
+    on:
+      repo: benjvi/terraform-cd-example-app
+      branch: master
+
