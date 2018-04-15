@@ -22,6 +22,7 @@ script:
 # login to gcloud 
  - openssl aes-256-cbc -K $encrypted_f4a062b8c43d_key -iv $encrypted_f4a062b8c43d_iv -in API\ Project-20f67b6e6d86.json.enc -out $HOME/API\ Project-20f67b6e6d86.json -d
  - gcloud auth activate-service-account --key-file $HOME/API\ Project-20f67b6e6d86.json
+ - gcloud config set project parabolic-rope-822
 # install terraform
  - if [ ! -d "$HOME/terraform" ]; then rm -rf $HOME/terraform; mkdir $HOME/terraform; curl -fSL "https://releases.hashicorp.com/terraform/0.11.5/terraform_0.11.5_linux_amd64.zip" -o terraform.zip; sudo unzip terraform.zip -d $HOME/terraform; rm -f terraform.zip; fi
  - sudo ln -s $HOME/terraform/terraform /usr/bin/terraform 
