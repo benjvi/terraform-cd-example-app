@@ -27,6 +27,7 @@ script:
  - sudo ln -s $HOME/terraform/terraform /usr/bin/terraform 
 # - docker build -t benjvi/terraform-cd-example-app:${TRAVIS_BUILD_NUMBER} .
  - go get -u github.com/ericchiang/terraform-provider-k8s
+ - curl -Lo kubectl https://storage.googleapis.com/kubernetes-release/release/v1.9.6/bin/linux/amd64/kubectl && chmod +x kubectl && sudo mv kubectl /usr/local/bin/
 
 deploy:
   - provider: script
