@@ -1,5 +1,5 @@
 provider "google" {
-  credentials = "${file("$HOME/API\ Project-20f67b6e6d86.json")}"
+  credentials = "${file("$HOME/API Project-20f67b6e6d86.json")}"
   project     = "parabolic-rope-822"
   region      = "eu-west2"
 }
@@ -28,11 +28,11 @@ resource "null_resource" "set_cluster" {
 }
 
 resource "k8s_manifest" "app-service" {
-  content = "${file("../manifests/app-service.yaml")}"
+  content = "${file("manifests/app-service.yaml")}"
   depends_on = ["null_resource.set_cluster"]
 }
 
 resource "k8s_manifest" "app-deployment" {
-  content = "${file("../manifests/app-deployment.yaml")}"
+  content = "${file("manifests/app-deployment.yaml")}"
   depends_on = ["null_resource.set_cluster"]
 }
