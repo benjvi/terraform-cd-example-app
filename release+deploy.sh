@@ -12,5 +12,6 @@ gcloud version
 gsutil cp gs://tf-state-benjvi/terraform/state/snap-app/default.tfstate .
 rm default.tfstate
 terraform init
+terraform workspace select test
 terraform apply -auto-approve -input=false
 cd -
