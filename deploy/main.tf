@@ -11,10 +11,11 @@ terraform {
   }
 }
 
-resource "k8s_manifest" "app-service" {
-  content = "${file("manifests/app-service.yaml")}"
+variable "cloudflare_token" {
+  type = "string"
 }
 
-resource "k8s_manifest" "app-deployment" {
-  content = "${file("manifests/app-deployment.yaml")}"
+module "app" {
+  source  = "module"
+  cloudflare_token = "${var.cloudflare_token}"
 }
