@@ -38,7 +38,7 @@ terraform {
 
 # module sources dont support interpolation yet, even when using registry
 module "app-test" {
-  source = "git@github.com:benjvi/example-app-tf-module.git?ref=master" 
+  source = "https://github.com:benjvi/example-app-tf-module.git" 
   module_count = "${terraform.workspace == "test" ? "1" : "0"}"
   cloudflare_domain = "${var.cloudflare_domain}"
   app_version = "latest"
