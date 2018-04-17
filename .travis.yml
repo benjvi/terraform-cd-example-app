@@ -36,7 +36,7 @@ before_deploy:
 deploy:
   - provider: script
     skip_cleanup: true
-    script: "./release+deploy.sh"
+    script: "./release+deploy.sh \"${TRAVIS_BUILD_NUMBER}\""
     on:
       repo: benjvi/terraform-cd-example-app
       branch: master
