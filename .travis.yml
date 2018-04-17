@@ -30,13 +30,14 @@ before_deploy:
  - cp .terraformrc "$HOME/.terraformrc"
  - go get -u github.com/ericchiang/terraform-provider-k8s
  - export GOOGLE_APPLICATION_CREDENTIALS="$HOME/API Project-20f67b6e6d86.json" # see GH issue kubernetes/kubernetes #30617
+ - export TF_VAR_app_version="${TRAVIS_BUILD_NUMBER}"
 # login for docker push
  - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
- 
+  
 deploy:
   - provider: script
     skip_cleanup: true
-    script: "./release+deploy.sh \"${TRAVIS_BUILD_NUMBER}\""
+    script: "./release+deploy.sh"
     on:
       repo: benjvi/terraform-cd-example-app
       branch: master
