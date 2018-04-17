@@ -9,6 +9,6 @@ public class HelloWorldController {
 
     @GetMapping (value = "/")
     public String displayHelloWorld() {
-        return "<html><body><h1>Hello London!</h1></body></html>";
+        return "<html><body><h1>Hello World!</h1></body></html>";
     }
 }
