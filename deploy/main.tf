@@ -49,4 +49,5 @@ module "app-prod" {
   source = "github.com/benjvi/example-app-tf-module" 
   module_count = "${terraform.workspace == "prod" ? "1" : "0"}"
   cloudflare_domain = "${var.cloudflare_domain}"
+  app_version = "latest"
 }
