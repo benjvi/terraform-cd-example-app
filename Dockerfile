@@ -1,22 +1,8 @@
-FROM haskell:7.8
-RUN cabal update
+FROM benjvi/app-mvn-cached:0 
+COPY src /app/src
+COPY pom.xml /app/
+RUN cd /app && mvn clean verify
 
-# Add Cabal File and deps/ folder
-COPY ./web-app.cabal /opt/server/
-
-RUN cd /opt/server && cabal install --only-dependencies
-
-# Explicitly add relevant folders
-COPY ./src /opt/server/src
-
-# Build the Project
-RUN cd /opt/server && cabal build
-
-FROM haskell:7.8 
-COPY --from=0 /opt/server/dist/build/web-app/web-app /opt/server/
-
-ENV PATH=/opt/server
-
-# Default Command for Container
-WORKDIR /opt/server
-CMD ["web-app"]
+FROM fabric8/java-jboss-openjdk8-jdk
+COPY --from=0 /app/target/helloworld-1.0.jar $JAVA_APP_DIR
+ENV JAVA_APP_JAR=helloworld-1.0.jar

@@ -13,9 +13,8 @@ cache:
 install: true 
 
 script:
- - echo "skipping build"
-# - docker build -t benjvi/terraform-cd-example-app:${TRAVIS_BUILD_NUMBER} .
-# - docker tag benjvi/terraform-cd-example-app:${TRAVIS_BUILD_NUMBER} benjvi/terraform-cd-example-app:latest
+ - docker build -t benjvi/terraform-cd-example-app:${TRAVIS_BUILD_NUMBER} .
+ - docker tag benjvi/terraform-cd-example-app:${TRAVIS_BUILD_NUMBER} benjvi/terraform-cd-example-app:latest
 
 before_deploy:
 # configure gcloud
