@@ -18,9 +18,8 @@ variable "cloudflare_domain" {
   default = "bjv.me"
 }
 
-variable "app_module_version" {
+variable "app_version" {
   type = "string"
-  default = "master"
 }
 
 provider "cloudflare" {
@@ -36,18 +35,3 @@ terraform {
 }
 
 
-# module sources dont support interpolation yet, even when using registry
-module "app-test" {
-  source = "github.com/benjvi/example-app-tf-module" 
-  module_count = "${terraform.workspace == "test" ? "1" : "0"}"
-  cloudflare_domain = "${var.cloudflare_domain}"
-  app_version = "latest"
-}
-
-module "app-prod" {
-  # source = "git@github.com:benjvi/example-app-tf-module.git?ref=v1" 
-  source = "github.com/benjvi/example-app-tf-module" 
-  module_count = "${terraform.workspace == "prod" ? "1" : "0"}"
-  cloudflare_domain = "${var.cloudflare_domain}"
-  app_version = "latest"
-}
