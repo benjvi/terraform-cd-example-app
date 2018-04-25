@@ -18,20 +18,16 @@ variable "cloudflare_domain" {
   default = "bjv.me"
 }
 
-variable "app_version" {
-  type = "string"
-}
-
 provider "cloudflare" {
   email = "${var.cloudflare_email}"
   token = "${var.cloudflare_token}"
 }
 
-terraform {
-  backend "gcs" {
-    bucket  = "tf-state-benjvi"
-    prefix  = "terraform/state/snap-app"
-  }
-}
+//terraform {
+//  backend "gcs" {
+//    bucket  = "tf-state-benjvi"
+//    prefix  = "terraform/state/snap-app"
+//  }
+//}
 
 
