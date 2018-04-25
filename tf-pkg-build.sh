@@ -1,10 +1,14 @@
 #!/bin/bash
-set -e
+
+# this command builds the package from src and puts it in the tgt dir, ready for terraform apply
+# it also places the package in the local repository, ready for push to a remote store
 
 # TODO: add command for scaffolding module in the correct format - 'tf-package init'
 workspaces=( "default" "test" )
 
 package_repo="$HOME/.tf-pkg"
+pkg_src_dir="tf-pkg-src"
+build_tgt_dir="tf-pkg-tgt"
 
 package_id=${1?"Package id must be specified as first arg (must be unique within repo)"}
 package_version=${2?"Package version must be specified as second arg"}
@@ -22,26 +26,28 @@ mkdir "${package_uri}" || (echo "Package version already exists, aborting" >&2 &
 # why - putting providers in modules gets messy so not dealing with it for now
 # this is where we inject credentials, better for consumer to specify this
 # depending on providers used, explicit providers block may not be required
-if [ -e pkg-providers.tf ]; then
-    cp pkg-providers.tf "${package_uri}/"
+if [ -e "${pkg_src_dir}/providers.tf" ]; then
+    cp "${pkg_src_dir}/providers.tf" "${package_uri}/"
 fi
 
 # prod could use separate config or just not be present
 # this is optional
-if [ -e pkg-prod.tf ]; then
-    cp pkg-prod.tf "${package_uri}/" 
+if [ -e "${pkg_src_dir}/prod.tf" ]; then
+    cp "${pkg_src_dir}/prod.tf" "${package_uri}/" 
 fi
 
 # module must be present, can't have a package that is empty
-cp -r pkg-module "${package_uri}/pkg-module"
+cp -r "${pkg_src_dir}/module" "${package_uri}/module"
 
+# TODO: looks like this causes some error??
 read -r -d '' version_variable <<EOF
 variable "app_version" {
   type = "string"
   default = "${package_version}"
 }
 EOF
-printf "${version_variable}\n\n" > "${package_uri}/pkg-main.tf"
+
+printf "${version_variable}\n\n" > "${package_uri}/main.tf"
 
 # generate workspaces based on a standard tf config that consumes a module with a version and a module count
 # nb profile can be used to set app profiles or different config in a module in a new environment
@@ -56,18 +62,18 @@ module "app_${space}" {
   namespace = "\${terraform.workspace}"
 }
 EOF
-   printf "${module}\n\n" >> "${package_uri}/pkg-main.tf"
+   printf "${module}\n\n" >> "${package_uri}/main.tf"
 done
 # add some metadata to the packagge
 read -r -d '' pkginfo <<EOF
-package-id: ${package_id}
-package-version: ${package_version}
-repo: local (default: $HOME/.tf-pkg
+package-id: "${package_id}"
+package-version: "${package_version}"
+repo: "local (default: \$HOME/.tf-pkg)"
 EOF
-printf "${pkginfo}\n" > tf-pkg/.pkg-info.yml
+printf "${pkginfo}\n" > "${package_uri}/.pkg-info.yml"
  
 # what to do with local state?? (initially going to disallow it)
-mkdir -p tf-pkg
-rm -rf tf-pkg/*.tf* tf-pkg/pkg-module
-cp -r "${package_uri}"/* tf-pkg/
+mkdir -p "${build_tgt_dir}"
+rm -rf "${build_tgt_dir}"/*.tf* "${build_tgt_dir}/module"
+cp -r "${package_uri}"/ ${build_tgt_dir}/
 
