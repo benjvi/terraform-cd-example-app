@@ -7,7 +7,8 @@ fi
 app_version="$1"
 docker push "benjvi/terraform-cd-example-app:${app_version}"
 docker push benjvi/terraform-cd-example-app:latest
-./tf-pkg-build.sh "benjvi-terraform-cd-example-app" "${app_version}" # todo: add repo type here
+./tf-pkg-build.sh "benjvi-tf-pkgs/terraform-cd-example-app" "${app_version}" "gcs" # todo: repo type should be mandatory + part of id
+./tf-pkg-push.sh "benjvi-tf-pkgs/terraform-cd-example-app" "${app_version}" "gcs"
 cd tf-pkg-tgt
 terraform init -upgrade
 terraform workspace select test
