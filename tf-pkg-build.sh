@@ -17,9 +17,6 @@ package_repo=${3:-"local"}
 # package uri is a path, but it should also support gcs/s3 storage
 local_package_uri="${local_repo}/${package_id}/${package_version}"
 
-# TODO: fix package uri to be the correct format in terraform module source param
-package_uri="${local_repo}/${package_id}/${package_version}"
-
 # ensure repo and folder for package revisions exists
 mkdir -p "${local_repo}/${package_id}"
 # intended to fail if package version already exists
@@ -55,11 +52,10 @@ printf "${version_variable}\n\n" > "${local_package_uri}/main.tf"
 # generate workspaces based on a standard tf config that consumes a module with a version and a module count
 # nb profile can be used to set app profiles or different config in a module in a new environment
 # it *is not* used to determine namespacing of deployments - this relies directly on the workspace (for now)
-# TODO fix module source to use gcs address / in package_uri variable
 for space in "${workspaces[@]}"; do
     read -r -d '' module <<EOF
 module "app_${space}" {
-  source = "${local_package_uri}/module"  
+  source = "./module"  
   module_count = "\${terraform.workspace == "${space}" ? "1" : "0"}"
   app_version = "\${var.app_version}"
   app_profile = "\${terraform.workspace}"

@@ -7,12 +7,12 @@ fi
 app_version="$1"
 docker push "benjvi/terraform-cd-example-app:${app_version}"
 docker push benjvi/terraform-cd-example-app:latest
-./tf-pkg-build.sh "benjvi-tf-pkgs/terraform-cd-example-app" "${app_version}" "gcs" # todo: repo type should be mandatory + part of id
-./tf-pkg-push.sh "benjvi-tf-pkgs/terraform-cd-example-app" "${app_version}" "gcs"
+./tf-pkg-build.sh "tfstate-benjvi/terraform-cd-example-app" "${app_version}" "gcs" # todo: repo type should be mandatory + part of id
+./tf-pkg-push.sh "tfstate-benjvi/terraform-cd-example-app" "${app_version}" "gcs"
+# need to push first because config refers to the module in gcs
 cd tf-pkg-tgt
 terraform init -upgrade
 terraform workspace select test
 terraform apply -auto-approve -input=false
 cd -
-# push once we know the terraform config is valid
-#./tf-pkg-push.sh "benjvi-terraform-cd-example-app" "${app_version}" # todo: implement this
+./tf-pkg-push.sh "tfstate-benjvi/terraform-cd-example-app" "${app_version}" "gcs" 
