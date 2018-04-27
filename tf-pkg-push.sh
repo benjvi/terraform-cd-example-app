@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# TODO: validate arrgs aren't empty
 # TODO: check gsutil commands
 
 local_repo="$HOME/.tf-pkg"

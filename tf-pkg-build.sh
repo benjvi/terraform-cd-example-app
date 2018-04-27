@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# TODO validate args arent empty
 # this command builds the package from src and puts it in the tgt dir, ready for terraform apply
 # it also places the package in the local repository, ready for push to a remote store
 
