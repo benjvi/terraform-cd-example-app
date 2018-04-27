@@ -12,7 +12,7 @@ if [ -e "${local_package_uri}" ]; then
   package_repo=$(cat "${local_package_uri}/.pkg-info.json" | jq -r ".package_repo")
   if [ "${package_repo}" == "gcs" ]; then
     echo "pushing to gcs"
-    #gsutil cp -r "${local_package_uri}" "gs://${package_id}/${package_version}"
+    gsutil cp -r "${local_package_uri}" "gs://${package_id}/${package_version}"
   else
     echo "Unsupported repo type for pushing (gcs only)"
   fi

@@ -20,7 +20,8 @@ if [ -e "${local_package_uri}" ]; then
     cp -r "${local_package_uri}"/ ${build_tgt_dir}/
 else
     if [ "${package_repo}" == "gcs" ]; then
-        gsutil cp -r "gs://${package_id}/${package_version}" "${local_package_uri}"
+        mkdir -p "${local_repo}/${package_id}"
+        gsutil cp -r "gs://${package_id}/${package_version}" "${local_repo}/${package_id}/"
     else
         echo "Package not found" >&2 
         exit 1
