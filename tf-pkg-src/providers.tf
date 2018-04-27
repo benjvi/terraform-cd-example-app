@@ -23,11 +23,11 @@ provider "cloudflare" {
   token = "${var.cloudflare_token}"
 }
 
-//terraform {
-//  backend "gcs" {
-//    bucket  = "tf-state-benjvi"
-//    prefix  = "terraform/state/snap-app"
-//  }
-//}
+terraform {
+  backend "gcs" {
+    bucket  = "tf-state-benjvi"
+    prefix  = "terraform/state/snap-app"
+  }
+}
 
 
