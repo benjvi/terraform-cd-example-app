@@ -77,5 +77,7 @@ printf "${pkginfo}\n" > "${local_package_uri}/.pkg-info.json"
 # what to do with local state?? (initially going to disallow it)
 mkdir -p "${build_tgt_dir}"
 rm -rf "${build_tgt_dir}"/*.tf* "${build_tgt_dir}/module"
-cp -r "${local_package_uri}"/ ${build_tgt_dir}/
+echo "${local_package_uri}"
+ls -la "${local_package_uri}"
+cp -r "${local_package_uri}"/* ${build_tgt_dir}/
 

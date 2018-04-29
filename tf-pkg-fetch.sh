@@ -28,6 +28,6 @@ else
     fi
     mkdir -p "${build_tgt_dir}"
     rm -rf "${build_tgt_dir}"/*.tf* "${build_tgt_dir}/module"
-    cp -r "${local_package_uri}"/ ${build_tgt_dir}/
+    cp -r "${local_package_uri}"/* ${build_tgt_dir}/
 fi
 
