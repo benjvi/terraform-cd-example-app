@@ -1,4 +1,0 @@
-tf-pkg/
-.terraform/
-*.tfstate*
-*.tfvars
