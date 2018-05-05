@@ -4,7 +4,7 @@ resource "cloudflare_record" "webapp" {
   name   = "webapp.${terraform.workspace}"
   value  = "${kubernetes_service.app-service.load_balancer_ingress.0.ip}"
   type   = "A"
-  ttl    = 1200
+  ttl    = "${lookup(var.record_ttl, var.app_profile)}"
 }
 
 resource "kubernetes_service" "app-service" {
