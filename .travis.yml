@@ -18,8 +18,8 @@ script:
 
 before_deploy:
 # configure gcloud
- - openssl aes-256-cbc -K $encrypted_f4a062b8c43d_key -iv $encrypted_f4a062b8c43d_iv -in API\ Project-20f67b6e6d86.json.enc -out $HOME/API\ Project-20f67b6e6d86.json -d
- - gcloud auth activate-service-account --key-file $HOME/API\ Project-20f67b6e6d86.json
+ - openssl aes-256-cbc -K $encrypted_f4a062b8c43d_key -iv $encrypted_f4a062b8c43d_iv -in API\ Project-20f67b6e6d86.json.enc -out $HOME/API-Project-20f67b6e6d86.json -d
+ - gcloud auth activate-service-account --key-file $HOME/API-Project-20f67b6e6d86.json
  - gcloud config set project parabolic-rope-822
 # setup + configure kubectl
  - curl -Lo kubectl https://storage.googleapis.com/kubernetes-release/release/v1.9.6/bin/linux/amd64/kubectl && chmod +x kubectl && sudo mv kubectl /usr/local/bin/
@@ -29,7 +29,7 @@ before_deploy:
  - sudo ln -s $HOME/terraform/terraform /usr/bin/terraform
  - cp .terraformrc "$HOME/.terraformrc"
  - go get -u github.com/ericchiang/terraform-provider-k8s
- - export GOOGLE_APPLICATION_CREDENTIALS="$HOME/API Project-20f67b6e6d86.json" # see GH issue kubernetes/kubernetes #30617
+ - export GOOGLE_APPLICATION_CREDENTIALS="$HOME/API-Project-20f67b6e6d86.json" # see GH issue kubernetes/kubernetes #30617
  - export app_version="${TRAVIS_BUILD_NUMBER}"
 # login for docker push
  - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"

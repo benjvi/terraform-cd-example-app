@@ -1,5 +1,5 @@
 provider "google" {
-  credentials = "${file("$HOME/API Project-20f67b6e6d86.json")}"
+  credentials = "${file("~/API-Project-20f67b6e6d86.json")}"
   project     = "parabolic-rope-822"
   region      = "eu-west2"
 }
