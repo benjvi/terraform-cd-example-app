@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Guestbook</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}" />
+</head>
+    <body>
+
+        <img th:src="@{/images/spring-logo.png}" />
+
+        <h1>Guestbook</h1>
+
+        <div th:replace="guestbook_display"></div>
+
+        <h1>Change Comment</h1>
+        <form action="" th:object="${newEntry}" method="post">
+            <p>User: <input type="text" size="32" th:field="*{user}" />
+               Comment: <input type="text" size="128" th:field="*{comment}" /></p>
+
+            <p class="warning" th:if="${#fields.hasErrors('user')}">User cannot be empty.</p>
+            <p class="warning" th:if="${#fields.hasErrors('comment')}">Comment cannot be empty.</p>
+
+            <p><input type="submit" value="Confirm" /> <input type="reset" value="Reset" /></p>
+        </form>
+
+    </body>
+</html>

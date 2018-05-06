@@ -1,7 +1,7 @@
 provider "google" {
   credentials = "${file("~/API-Project-20f67b6e6d86.json")}"
-  project     = "parabolic-rope-822"
-  region      = "eu-west2"
+  project     = "${var.gcp_project}"
+  region      = "${var.gcp_region}"
 }
 
 variable "cloudflare_email" {
@@ -30,4 +30,12 @@ terraform {
   }
 }
 
+variable "gcp_project" {
+  type = "string"
+  default = "parabolic-rope-822"
+}
 
+variable "gcp_region" {
+  type = "string"
+  default = "europe-west2"
+}
