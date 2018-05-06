@@ -17,4 +17,6 @@ cd tf-pkg-tgt
 terraform init -upgrade
 terraform workspace select test
 terraform apply -auto-approve -input=false
+terraform workspace select prod
+terraform validate
 cd -
