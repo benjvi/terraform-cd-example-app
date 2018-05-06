@@ -4,7 +4,7 @@
 # it also places the package in the local repository, ready for push to a remote store
 
 # TODO: add command for scaffolding module in the correct format - 'tf-package init'
-workspaces=( "default" "test" )
+workspaces=( "default" "test" "prod" )
 
 local_repo="$HOME/.tf-pkg"
 pkg_src_dir="tf-pkg-src"
