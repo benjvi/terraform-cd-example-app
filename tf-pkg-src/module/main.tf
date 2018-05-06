@@ -1,7 +1,7 @@
 resource "cloudflare_record" "webapp" {
-  count = "${var.module_count}"
-  domain = "${var.cloudflare_domain}"
-  name   = "webapp.${terraform.workspace}"
+  count  = "${var.module_count}"
+  domain = "${local.cloudflare_domain}"
+  name   = "webapp.${var.namespace}"
   value  = "${kubernetes_service.app-service.load_balancer_ingress.0.ip}"
   type   = "A"
   ttl    = "${lookup(var.record_ttl, var.app_profile)}"
@@ -11,7 +11,7 @@ resource "kubernetes_service" "app-service" {
   count = "${var.module_count}"
   metadata {
     name = "app-service"
-    namespace = "${terraform.workspace}"
+    namespace = "${var.namespace}"
   }
   spec {
     selector {
@@ -31,8 +31,9 @@ data "template_file" "app-deployment" {
   template = "${file("${path.module}/manifests/app-deployment.yaml")}"
 
   vars {
-    namespace = "${terraform.workspace}"
+    namespace = "${var.namespace}"
     app_version = "${var.app_version}" 
+    instance_connection_name = "${local.gcp_project}:${local.gcp_region}:${local.db_instance_name}"
   }
 }
 

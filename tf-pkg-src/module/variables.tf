@@ -1,9 +1,4 @@
 
-variable "cloudflare_domain" {
-  type = "string"
-  default = "bjv.me"
-}
-
 variable "module_count" {
   type = "string"
 }
@@ -17,5 +12,13 @@ variable "app_profile" {
 }
 
 variable "namespace" {
-    type = "string"
+  type = "string"
 }
+
+locals {
+  db_instance_name = "terraform-cd-example-app-${var.namespace}-2" //gcp db instance names cannot be reused for up to a week
+  gcp_region = "europe-west2"
+  gcp_project = "parabolic-rope-822"
+  cloudflare_domain = "bjv.me"
+}
+

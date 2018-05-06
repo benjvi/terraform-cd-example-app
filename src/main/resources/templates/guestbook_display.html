@@ -1,0 +1,20 @@
+<div th:if="${entries.isEmpty()}">
+    <p>There are no comments in the Guestbook. What a pity.</p>
+</div>
+
+<div th:if="${!entries.isEmpty()}">
+    <p>Current comments in the Guestbook:</p>
+
+    <table>
+        <tr>
+            <th>User</th><th>Comment</th><th>Date</th><th></th><th></th>
+        </tr>
+        <tr th:each="entry: ${entries}">
+            <td th:text="${entry.user}"></td>
+            <td th:text="${entry.comment}"></td>
+            <td th:text="${#dates.format (entry.modified, 'EEEE MMMMM dd YYYY HH:mm')}"></td>
+            <td><a th:href="@{'/update/' + ${entry.id}}">Update</a></td>
+            <td><a th:href="@{'/delete/' + ${entry.id}}">Delete</a></td>
+        </tr>
+    </table>
+</div>
